@@ -1,18 +1,18 @@
 # 測出你的命定鼠婦！(Your Soul Isopod)》
-【一、品種陣容與抽卡機率（共 20 種）】
+【品種陣容與抽卡機率（共 20 種）】
 
 🏆 金卡 (UR, 機率 5%) — 稀有夢幻種：
-  1. 蜜桃鴨 (Peach Duck)
-  2. 火蜂 (Fire Bee)
+  1. 蜜桃鴨 (Peach Duck) 
+  2. 火蜂 (Fire Bee) 
 
 💜 紫卡 (SSR, 機率 20%) — 中高階進階種：
-  3. 木星 (Jupiter)
-  4. 黃頭鴨 (Yellow Head Duck)
+  3. 木星 (Jupiter) 
+  4. 黃頭鴨 (Yellow Head Duck) 
   5. 華麗巨人 (Magnificus)
   6. 銀狐 (Silver Fox)
   7. 橘化霍夫曼 (Hoffmannseggi Orange)
 
-💙 藍卡 (Rare, 機率 75%) — 平價熱門新手種（市價 400 元以下）：
+💙 藍卡 (Rare, 機率 75%) — 平價熱門新手種：
   8. 奶牛 (Dairy Cow)
   9. 斑馬 (Zebra)
   10. 黑山白點 / 小丑 (Clown)
