@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>測出你的命定鼠婦！｜Your Soul Isopod</title>
+<style>
+:root{
+  --bg:#0d1812; --bg2:#15251b; --panel:rgba(24,45,32,.88);
+  --line:rgba(204,224,190,.16); --text:#eef5e9; --muted:#aebda8;
+  --green:#9fc78f; --gold:#f6d77a; --purple:#c8a4ff; --blue:#82c8ff;
+  --shadow:0 20px 60px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(115,157,91,.15),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(166,128,64,.12),transparent 25%),
+    linear-gradient(145deg,var(--bg),#07100b 70%);
+  min-height:100vh;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;
+  background-image:radial-gradient(#d9e8cc 1px,transparent 1px);background-size:28px 28px;
+}
+.container{width:min(1120px,92%);margin:auto}
+header{padding:44px 0 24px;text-align:center}
+.badge{
+  display:inline-block;padding:7px 13px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.04);color:#c6d8bc;font-size:13px;letter-spacing:1px
+}
+h1{font-size:clamp(34px,6vw,64px);margin:16px 0 8px;letter-spacing:2px}
+h1 span{color:var(--green)}
+.subtitle{color:var(--muted);margin:0 auto;max-width:650px;line-height:1.8}
+nav{
+  position:sticky;top:0;z-index:20;padding:10px 0;background:rgba(7,16,11,.75);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)
+}
+nav .container{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+nav a{color:#cbd8c5;text-decoration:none;padding:8px 13px;border-radius:10px;font-size:14px}
+nav a:hover{background:rgba(255,255,255,.07)}
+.section{padding:48px 0}
+.section-title{font-size:28px;margin:0 0 8px}
+.section-desc{color:var(--muted);margin:0 0 24px}
+.draw-area{
+  display:grid;grid-template-columns:1fr 360px;gap:30px;align-items:center;
+  min-height:590px
+}
+.card-stage{perspective:1400px;display:grid;place-items:center;min-height:530px}
+.card{
+  width:min(340px,82vw);height:470px;position:relative;transform-style:preserve-3d;
+  transition:transform .9s cubic-bezier(.2,.8,.2,1);cursor:pointer
+}
+.card.flipped{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:26px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.2);box-shadow:var(--shadow)
+}
+.back{
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at center,rgba(180,216,151,.15),transparent 38%),
+    linear-gradient(145deg,#1d3925,#0b1710);
+}
+.back:before{
+  content:"🐚";font-size:105px;filter:drop-shadow(0 0 25px rgba(180,220,150,.35));
+  animation:breathe 2.2s ease-in-out infinite
+}
+.back:after{content:"YOUR SOUL ISOPOD";position:absolute;bottom:34px;letter-spacing:4px;font-size:12px;color:#adc5a2}
+.front{
+  transform:rotateY(180deg);padding:18px;display:flex;flex-direction:column;
+  background:linear-gradient(155deg,#233d29,#0e1c13)
+}
+.rarity-UR .front{background:linear-gradient(155deg,#513f16,#171308)}
+.rarity-SSR .front{background:linear-gradient(155deg,#3e275d,#171020)}
+.rarity-Rare .front{background:linear-gradient(155deg,#163c55,#0b1820)}
+.card-top{display:flex;justify-content:space-between;align-items:center}
+.rarity{
+  padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:1px;
+  background:rgba(255,255,255,.12)
+}
+.rarity-UR .rarity{color:var(--gold);box-shadow:0 0 18px rgba(246,215,122,.22)}
+.rarity-SSR .rarity{color:var(--purple)}
+.rarity-Rare .rarity{color:var(--blue)}
+.card-number{font-size:12px;color:#a8b6a4}
+.card-art{
+  flex:1;margin:14px 0;border-radius:18px;display:grid;place-items:center;overflow:hidden;
+  background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.09)
+}
+.card-art img{width:100%;height:100%;object-fit:cover;display:block}
+.isopod-svg{width:76%;max-height:235px}
+.card-name{font-size:25px;font-weight:800;margin-bottom:2px}
+.card-en{font-size:12px;color:#aeb9aa}
+.card-footer{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:#d2ddce}
+.control-panel{
+  padding:28px;border:1px solid var(--line);background:var(--panel);border-radius:24px;
+  box-shadow:var(--shadow)
+}
+.control-panel h2{margin-top:0;font-size:22px}
+.progress{height:8px;background:#09110c;border-radius:20px;overflow:hidden;margin:10px 0 22px}
+.progress i{display:block;height:100%;width:75%;background:linear-gradient(90deg,var(--blue),var(--purple),var(--gold))}
+.draw-btn{
+  width:100%;border:0;border-radius:16px;padding:17px 20px;font-size:18px;font-weight:800;
+  color:#102014;background:linear-gradient(135deg,#c7e5b5,#83b56e);cursor:pointer;
+  box-shadow:0 10px 30px rgba(120,170,100,.22);transition:.2s
+}
+.draw-btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.draw-btn:active{transform:translateY(1px)}
+.draw-btn:disabled{opacity:.55;cursor:wait}
+.hint{font-size:12px;color:#839681;text-align:center;margin-top:12px}
+.result{
+  margin-top:22px;padding:18px;border-radius:18px;background:rgba(255,255,255,.045);
+  border:1px solid var(--line);display:none
+}
+.result.show{display:block;animation:rise .45s ease}
+.result-label{font-size:12px;color:#9cad98;letter-spacing:1px}
+.result p{line-height:1.8;margin:8px 0}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:12px;border-radius:13px;background:rgba(0,0,0,.16)}
+.stat small{display:block;color:#879787;margin-bottom:3px}.stat b{font-size:15px}
+.deck{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px
+}
+.species{
+  border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:17px;padding:15px;
+  transition:.2s;position:relative;overflow:hidden
+}
+.species:hover{transform:translateY(-3px);background:rgba(255,255,255,.06)}
+.species.locked{filter:grayscale(.9);opacity:.55}
+.species-art{height:120px;border-radius:12px;background:rgba(0,0,0,.2);display:grid;place-items:center;margin-bottom:12px}
+.species-art img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.species-name{font-weight:750}.species-meta{display:flex;justify-content:space-between;color:#8e9c8b;font-size:12px;margin-top:7px}
+.count{color:#c8dbbe}
+.filterbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filterbar button{
+  background:rgba(255,255,255,.05);border:1px solid var(--line);color:#cbd7c6;
+  border-radius:999px;padding:8px 13px;cursor:pointer
+}
+.filterbar button.active{background:#bdd8ad;color:#132016}
+.about{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:15px
+}
+.info{padding:20px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.035)}
+.info .icon{font-size:28px}.info h3{margin:10px 0 5px}.info p{color:var(--muted);line-height:1.7;font-size:14px}
+footer{border-top:1px solid var(--line);padding:30px 0 50px;color:#788879;text-align:center;font-size:13px}
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;
+  background:#e6f1df;color:#142016;padding:11px 16px;border-radius:999px;z-index:100;
+  pointer-events:none;transition:.3s;box-shadow:0 10px 30px #0008;font-weight:700
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.particle{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:80;animation:particle 900ms ease-out forwards}
+@keyframes breathe{50%{transform:scale(1.08) rotate(-3deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes particle{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+@media(max-width:850px){.draw-area{grid-template-columns:1fr}.control-panel{max-width:520px;margin:auto}.deck{grid-template-columns:repeat(2,1fr)}.about{grid-template-columns:1fr}}
+@media(max-width:500px){.deck{grid-template-columns:1fr 1fr;gap:9px}.species{padding:10px}.species-art{height:95px}.card{height:430px}.card-stage{min-height:470px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="badge">FOREST TERRARIUM · ISOPOD GACHA</div>
+    <h1>測出你的<span>命定鼠婦！</span></h1>
+    <p class="subtitle">Your Soul Isopod — 點一下，看看哪一種鼠婦最像你的靈魂。<br>20 種品種 × 稀有度 × 性格 × 圖鑑收藏</p>
+  </div>
+</header>
+
+<nav>
+  <div class="container">
+    <a href="#draw">命定抽卡</a><a href="#collection">我的圖鑑</a><a href="#about">玩法介紹</a>
+  </div>
+</nav>
+
+<main>
+<section class="section" id="draw">
+  <div class="container">
+    <div class="draw-area">
+      <div class="card-stage">
+        <div class="card" id="card">
+          <div class="face back"></div>
+          <div class="face front" id="front"></div>
+        </div>
+      </div>
+      <aside class="control-panel">
+        <h2>🎴 命定鼠婦盲盒</h2>
+        <p style="color:var(--muted);line-height:1.7">深呼吸，按下抽卡鍵。你的命定鼠婦即將出現！</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:#879786">
+          <span>抽卡池</span><span>20 種</span>
+        </div>
+        <div class="progress"><i></i></div>
+        <button class="draw-btn" id="drawBtn">✨ 抽出我的命定鼠婦</button>
+        <div class="hint">UR 5%　·　SSR 20%　·　Rare 75%</div>
+        <div class="result" id="result">
+          <div class="result-label">YOUR SOUL ISOPOD</div>
+          <p id="personality"></p>
+          <div class="stat-row">
+            <div class="stat"><small>幸運色</small><b id="lucky"></b></div>
+            <div class="stat"><small>參考市價</small><b id="price"></b></div>
+          </div>
+          <button class="draw-btn" id="shareBtn" style="margin-top:14px;padding:12px;font-size:14px">📋 複製抽卡結果</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="collection">
+  <div class="container">
+    <h2 class="section-title">📖 鼠婦圖鑑</h2>
+    <p class="section-desc">每抽到一種就會自動解鎖，重新整理頁面也不會消失。</p>
+    <div class="filterbar">
+      <button class="active" data-filter="all">全部</button>
+      <button data-filter="UR">🏆 UR</button>
+      <button data-filter="SSR">💜 SSR</button>
+      <button data-filter="Rare">💙 Rare</button>
+      <button data-filter="locked">🔒 未解鎖</button>
+    </div>
+    <div class="deck" id="deck"></div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="container">
+    <h2 class="section-title">🌿 怎麼玩？</h2>
+    <p class="section-desc">認識鼠婦，也看看你的靈魂是哪一型。</p>
+    <div class="about">
+      <div class="info"><div class="icon">🎴</div><h3>一鍵盲盒</h3><p>依照 UR 5%、SSR 20%、Rare 75% 的設定抽出你的命定品種。</p></div>
+      <div class="info"><div class="icon">🔊</div><h3>沉浸音效</h3><p>使用 Web Audio API 即時產生翻牌與稀有卡音效，不需要外部音樂檔。</p></div>
+      <div class="info"><div class="icon">💾</div><h3>收藏圖鑑</h3><p>抽到的品種與數量會儲存在瀏覽器 LocalStorage，慢慢完成你的鼠婦收藏。</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>🌱 Your Soul Isopod · Forest Terrarium · 20 Species Collection</footer>
+<div class="toast" id="toast">已複製到剪貼簿！</div>
+
+<script>
+const species = [
+ {name:"蜜桃鴨",en:"Peach Duck",rarity:"UR",price:"約 NT$ 2,000+",personality:"你外表溫柔，但其實是很有主見的稀有派。喜歡精緻、有特色、低調炫耀的事物。",color:"蜜桃粉",emoji:"🍑"},
+ {name:"火蜂",en:"Fire Bee",rarity:"UR",price:"約 NT$ 1,500+",personality:"你是行動派！熱情、直接又充滿存在感，永遠不甘於平凡。",color:"火焰橘",emoji:"🔥"},
+ {name:"木星",en:"Jupiter",rarity:"SSR",price:"約 NT$ 800–1,500",personality:"你的世界觀很大，喜歡探索未知，也很享受慢慢培養出成果的感覺。",color:"木星金",emoji:"🪐"},
+ {name:"黃頭鴨",en:"Yellow Head Duck",rarity:"SSR",price:"約 NT$ 800–1,500",personality:"樂觀又有點調皮，你總能讓身邊的人放鬆下來。",color:"鵝黃",emoji:"🐤"},
+ {name:"華麗巨人",en:"Magnificus",rarity:"SSR",price:"約 NT$ 700–1,400",personality:"你喜歡把事情做到最好，審美與品質感都是你的堅持。",color:"森林綠",emoji:"✨"},
+ {name:"銀狐",en:"Silver Fox",rarity:"SSR",price:"約 NT$ 700–1,300",personality:"冷靜、聰明、觀察力敏銳。你不急著表現，但總能抓到關鍵。",color:"銀灰",emoji:"🦊"},
+ {name:"橘化霍夫曼",en:"Hoffmannseggi Orange",rarity:"SSR",price:"約 NT$ 600–1,200",personality:"活潑又有創意，喜歡鮮明的東西，也願意嘗試不同玩法。",color:"橘紅",emoji:"🍊"},
+ {name:"奶牛",en:"Dairy Cow",rarity:"Rare",price:"約 NT$ 100–300",personality:"親切、好相處，是大家都會喜歡的可靠型朋友。",color:"奶油白",emoji:"🐄"},
+ {name:"斑馬",en:"Zebra",rarity:"Rare",price:"約 NT$ 100–300",personality:"你很有自己的節奏，黑白分明，做決定時意外地果斷。",color:"黑白",emoji:"🦓"},
+ {name:"黑山白點／小丑",en:"Clown",rarity:"Rare",price:"約 NT$ 150–350",personality:"幽默感很強，總能在嚴肅的場合找到有趣的一面。",color:"黑白",emoji:"🤡"},
+ {name:"黑熊貓王",en:"Panda King",rarity:"Rare",price:"約 NT$ 150–400",personality:"穩重又有點高冷，熟了之後其實非常可愛。",color:"墨黑",emoji:"🐼"},
+ {name:"卡布奇諾",en:"Cappuccino",rarity:"Rare",price:"約 NT$ 150–350",personality:"溫暖、舒服、療癒系。你的存在就像一杯剛剛好的咖啡。",color:"咖啡棕",emoji:"☕"},
+ {name:"粉紅熊貓王",en:"Pink Panda King",rarity:"Rare",price:"約 NT$ 200–400",personality:"浪漫派代表！你在細節裡尋找可愛，也很重視自己的小世界。",color:"粉紅",emoji:"🌸"},
+ {name:"大麥町正露丸",en:"Dalmatian",rarity:"Rare",price:"約 NT$ 150–350",personality:"活潑、好奇、停不下來。你的人生需要一點點冒險才有趣。",color:"斑點黑",emoji:"🐾"},
+ {name:"高黃斑馬",en:"High Yellow Zebra",rarity:"Rare",price:"約 NT$ 180–400",personality:"你很會發現別人忽略的小亮點，個性低調卻很有品味。",color:"亮黃",emoji:"💛"},
+ {name:"金背獨角獸",en:"Unicorn Gold Back",rarity:"Rare",price:"約 NT$ 200–400",personality:"你相信生活需要一點幻想，平凡日子也可以自己加上金色濾鏡。",color:"金色",emoji:"🦄"},
+ {name:"熔岩",en:"Lava",rarity:"Rare",price:"約 NT$ 150–350",personality:"外表安靜，內心其實超有能量。你一旦認真起來就很難停下。",color:"熔岩紅",emoji:"🌋"},
+ {name:"雪白",en:"White Shark / Snow White",rarity:"Rare",price:"約 NT$ 120–300",personality:"簡單就是你的美學。乾淨、純粹，而且有一種安靜的魅力。",color:"雪白",emoji:"❄️"},
+ {name:"橘化多霜臘",en:"Scaber Lemon Bar",rarity:"Rare",price:"約 NT$ 120–300",personality:"你是快樂製造機，喜歡明亮色彩，也很容易被新鮮事物吸引。",color:"檸檬黃",emoji:"🍋"},
+ {name:"正露丸",en:"Mauve",rarity:"Rare",price:"約 NT$ 100–300",personality:"低調但有個性，你不需要搶鏡，自然會散發自己的魅力。",color:"紫灰",emoji:"🪻"}
+];
+
+const storageKey="yourSoulIsopod_v1";
+let collection=JSON.parse(localStorage.getItem(storageKey)||"{}");
+let current=null, busy=false, audioCtx=null;
+
+function fallbackSVG(s, large=false){
+  const bg=s.rarity==="UR"?"#7a5d20":s.rarity==="SSR"?"#4f376c":"#21465c";
+  const shell=s.rarity==="UR"?"#d9b75b":s.rarity==="SSR"?"#a88bc7":"#8cb6c8";
+  const spots=s.rarity==="Rare"?"#dfeee2":"#f8e6b2";
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320">
+    <defs><radialGradient id="g"><stop stop-color="${shell}"/><stop offset="1" stop-color="${bg}"/></radialGradient></defs>
+    <rect width="500" height="320" rx="28" fill="${bg}"/>
+    <ellipse cx="250" cy="165" rx="145" ry="78" fill="url(#g)" stroke="#e8f0e4" stroke-opacity=".45" stroke-width="5"/>
+    ${Array.from({length:7},(_,i)=>`<path d="M${140+i*36} 100 Q${125+i*40} 165 ${140+i*36} 230" fill="none" stroke="#17251c" stroke-opacity=".55" stroke-width="7"/>`).join("")}
+    ${Array.from({length:9},(_,i)=>`<circle cx="${155+(i%5)*48}" cy="${140+Math.floor(i/5)*42}" r="8" fill="${spots}" opacity=".7"/>`).join("")}
+    <circle cx="390" cy="150" r="22" fill="${shell}" stroke="#e8f0e4" stroke-opacity=".45" stroke-width="4"/>
+    <circle cx="398" cy="144" r="4" fill="#111"/>
+    <text x="250" y="292" fill="#edf5e9" text-anchor="middle" font-family="sans-serif" font-size="20">${s.name}</text>
+  </svg>`)}`;
+}
+function imageFor(s){
+  const imageFiles = {
+    "Peach Duck": "images/peach_duck.jpg",
+    "Fire Bee": "images/fire_bee.jpg",
+    "Jupiter": "images/jupiter.jpg",
+    "Yellow Head Duck": "images/yellow_head_duck.jpg",
+    "Magnificus": "images/magnificus.jpg",
+    "Silver Fox": "images/silver_fox.jpg",
+    "Hoffmannseggi Orange": "images/hoffmannseggi_orange.jpg",
+    "Dairy Cow": "images/dairy_cow.jpg",
+    "Zebra": "images/zebra.jpg",
+    "Clown": "images/clown.jpg",
+    "Panda King": "images/panda_king.jpg",
+    "Cappuccino": "images/cappuccino.jpg",
+    "Pink Panda King": "images/pink_panda_king.jpg",
+    "Dalmatian": "images/dalmatian.jpg",
+    "High Yellow Zebra": "images/high_yellow_zebra.jpg",
+    "Unicorn Gold Back": "images/unicorn_gold_back.jpg",
+    "Lava": "images/lava.jpg",
+    "White Shark / Snow White": "images/white_shark__snow_white.jpg",
+    "Scaber Lemon Bar": "images/scaber_lemon_bar.jpg",
+    "Mauve": "images/mauve.jpg"
+  };
+
+  const file = imageFiles[s.en];
+  return {file, fallback:fallbackSVG(s)};
+}
+function cardHTML(s){
+  const img=imageFor(s);
+  return `<div class="card-top"><span class="rarity">${s.rarity==="UR"?"🏆 金卡":s.rarity==="SSR"?"💜 紫卡":"💙 藍卡"}</span><span class="card-number">#${String(species.indexOf(s)+1).padStart(2,"0")}</span></div>
+  <div class="card-art"><img src="${img.file}" alt="${s.name}" onerror="this.onerror=null;this.src='${img.fallback}'"></div>
+  <div class="card-name">${s.emoji} ${s.name}</div><div class="card-en">${s.en}</div>
+  <div class="card-footer"><span>${s.rarity}</span><span>${s.price}</span></div>`;
+}
+function weightedDraw(){
+  const r=Math.random()*100;
+  let pool;
+  if(r<5) pool=species.filter(s=>s.rarity==="UR");
+  else if(r<25) pool=species.filter(s=>s.rarity==="SSR");
+  else pool=species.filter(s=>s.rarity==="Rare");
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function beep(type="normal"){
+  try{
+    audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.connect(g);g.connect(audioCtx.destination);
+    const now=audioCtx.currentTime;
+    o.type="sine";
+    if(type==="rare"){o.frequency.setValueAtTime(380,now);o.frequency.exponentialRampToValueAtTime(900,now+.35)}
+    else{o.frequency.setValueAtTime(260,now);o.frequency.exponentialRampToValueAtTime(520,now+.22)}
+    g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.08,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+.42);
+    o.start(now);o.stop(now+.45);
+  }catch(e){}
+}
+function particles(rarity){
+  const count=rarity==="UR"?34:rarity==="SSR"?25:15;
+  for(let i=0;i<count;i++){
+    const p=document.createElement("i");p.className="particle";
+    p.style.left="50%";p.style.top="46%";
+    p.style.background=rarity==="UR"?"#f6d77a":rarity==="SSR"?"#c8a4ff":"#82c8ff";
+    p.style.setProperty("--x",(Math.random()*360-180)+"px");
+    p.style.setProperty("--y",(Math.random()*380-190)+"px");
+    document.body.appendChild(p);setTimeout(()=>p.remove(),950);
+  }
+}
+function showResult(s){
+  current=s;
+  document.getElementById("personality").textContent=s.personality;
+  document.getElementById("lucky").textContent=s.color;
+  document.getElementById("price").textContent=s.price;
+  document.getElementById("result").classList.add("show");
+}
+function save(){
+  localStorage.setItem(storageKey,JSON.stringify(collection));
+}
+function renderDeck(filter="all"){
+  const deck=document.getElementById("deck");
+  deck.innerHTML="";
+  species.filter(s=>{
+    if(filter==="locked") return !collection[s.en];
+    if(filter==="all") return true;
+    return s.rarity===filter;
+  }).forEach(s=>{
+    const unlocked=!!collection[s.en], count=collection[s.en]||0;
+    const img=imageFor(s);
+    const el=document.createElement("article");
+    el.className="species "+(unlocked?"":"locked");
+    el.innerHTML=`<div class="species-art"><img src="${unlocked?img.file:img.fallback}" alt="${unlocked?s.name:"未解鎖"}" onerror="this.onerror=null;this.src='${img.fallback}'"></div>
+      <div class="species-name">${unlocked?s.emoji+" "+s.name:"🔒 未解鎖"}</div>
+      <div class="species-meta"><span>${unlocked?s.rarity:"??"}</span><span class="count">${unlocked?"×"+count:""}</span></div>`;
+    deck.appendChild(el);
+  });
+}
+document.getElementById("drawBtn").addEventListener("click",()=>{
+  if(busy)return;
+  busy=true;
+  const card=document.getElementById("card"),btn=document.getElementById("drawBtn");
+  btn.disabled=true;document.getElementById("result").classList.remove("show");
+  card.classList.remove("flipped");
+  beep();
+  setTimeout(()=>{
+    const s=weightedDraw();
+    card.classList.add("flipped");
+    document.getElementById("front").className="face front rarity-"+s.rarity;
+    document.getElementById("front").innerHTML=cardHTML(s);
+    collection[s.en]=(collection[s.en]||0)+1;save();renderDeck();
+    showResult(s);particles(s.rarity);beep(s.rarity==="Rare"?"normal":"rare");
+    btn.disabled=false;busy=false;
+  },550);
+});
+document.getElementById("shareBtn").addEventListener("click",async()=>{
+  if(!current)return;
+  const text=`🎴 我的命定鼠婦：${current.name}（${current.en}）
+稀有度：${current.rarity}
+性格：${current.personality}
+幸運色：${current.color}
+參考市價：${current.price}
+🌿 Your Soul Isopod`;
+  try{await navigator.clipboard.writeText(text)}catch(e){
+    const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+  }
+  const toast=document.getElementById("toast");toast.textContent="已複製抽卡結果！";toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1800);
+});
+document.querySelectorAll(".filterbar button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".filterbar button").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderDeck(b.dataset.filter);
+}));
+renderDeck();
+</script>
+</body>
+</html>
